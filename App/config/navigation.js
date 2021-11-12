@@ -13,7 +13,7 @@ import Settings from '../screens/Settings'
 import SignIn from '../screens/SignIn'
 import SignUp from '../screens/SignUp'
 import Loading from '../screens/Loading'
-import react from 'react';
+import { AuthContext } from "./context";
 
 const ContactsStack = createStackNavigator();
 const ContactsStackScreen = () => (
@@ -84,24 +84,55 @@ const AuthStackScreen = () => (
     </AuthStack.Navigator>
 )
 
+const RootStack = createStackNavigator();
+const RootStackScreen = ({ userToken }) => (
+    <RootStack.Navigator headerMode='none'>
+        {userToken ? (
+            <RootStack.Screen name='App' component={AppDrawerScreen} />
+        ) : (
+            <RootStack.Screen name='Auth' component={AuthStackScreen} />
+        )}
+    </RootStack.Navigator>
+)
+
 export default () => {
     const [isLoading, setIsLoading] = React.useState(true);
-    const [user, setUser] = React.useState(null);
+    const [userToken, setUserToken] = React.useState(null);
+
+    const authContext = React.useMemo(() => {
+        return {
+          signIn: () => {
+            setIsLoading(false);
+            setUserToken("asdf");
+          },
+          signUp: () => {
+            setIsLoading(false);
+            setUserToken("asdf");
+          },
+          signOut: () => {
+            setIsLoading(false);
+            setUserToken(null);
+          }
+        };
+      }, []);
 
     React.useEffect(() => {
         setTimeout(() =>{
             setIsLoading(!isLoading);
-            setUser({});
         }, 1000);
 
-        // setTimeout(() =>{
-        //     setUser({});
-        // }, 1500);
+        // if (isLoading) {
+        //     return <Loading />;
+        //   }
     }, []);
 
     return(
-        <NavigationContainer>
-        {isLoading ? <Loading/> : user ? <AppDrawerScreen /> : <AuthStackScreen />}
-        </NavigationContainer>
+        <AuthContext.Provider value={authContext} >
+
+            <NavigationContainer>
+            {isLoading ? <Loading /> : <RootStackScreen userToken={userToken} />}
+                
+            </NavigationContainer>
+        </AuthContext.Provider>
     );
 }

@@ -2,12 +2,14 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import ContactsList from '../screens/ContactsList';
 import ContactDetails from '../screens/ContactDetails';
 import ActionsList from '../screens/ActionsList';
 import ActionDetails from '../screens/ActionDetails';
+import Settings from '../screens/Settings'
 
 const ContactsStack = createStackNavigator();
 const ContactsStackScreen = () => (
@@ -40,10 +42,11 @@ const ActionsStackScreen = () => (
 const AppTabs = createBottomTabNavigator();
 const AppTabsScreen = () => (
     <AppTabs.Navigator
-    tabBarOptions= {{
-        activeTintColor: 'red',
-        activeBackgroundColor: 'blue'
-    }}>
+    // tabBarOptions= {{
+    //     activeTintColor: 'red',
+    //     activeBackgroundColor: 'blue'
+    // }}
+    >
         <AppTabs.Screen name="Contacts" component={ContactsStackScreen} options={{
             tabBarIcon: (props) => <Ionicons name="ios-people" size={props.size} color={props.color}/>
         }}/>
@@ -53,8 +56,17 @@ const AppTabsScreen = () => (
     </AppTabs.Navigator>
 )
 
+
+const AppDrawer = createDrawerNavigator();
+const AppDrawerScreen = () => (
+    <AppDrawer.Navigator>
+        <AppDrawer.Screen name="Tabs" component={AppTabsScreen} />
+        <AppDrawer.Screen name="Settings" component={Settings} />
+    </AppDrawer.Navigator>
+)
+
 export default () => (
   <NavigationContainer>
-    <AppTabsScreen />
+    <AppDrawerScreen />
   </NavigationContainer>
 );

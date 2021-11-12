@@ -12,6 +12,7 @@ import ActionDetails from '../screens/ActionDetails';
 import Settings from '../screens/Settings'
 import SignIn from '../screens/SignIn'
 import SignUp from '../screens/SignUp'
+import Profile from '../screens/Profile'
 import Loading from '../screens/Loading'
 import { AuthContext } from "./context";
 
@@ -71,6 +72,9 @@ const AppDrawerScreen = () => (
             drawerLabel: "Home"
         }}/>
         <AppDrawer.Screen name="Settings" component={Settings} options={{
+            gestureEnabled: false
+        }}/>
+        <AppDrawer.Screen name="Profile" component={Profile} options={{
             gestureEnabled: false
         }}/>
     </AppDrawer.Navigator>

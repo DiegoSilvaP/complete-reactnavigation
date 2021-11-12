@@ -4,7 +4,7 @@ import { FlatList } from "react-native";
 import { Row, Separator } from "../components/Row";
 import users from "../data/users";
 
-export default () => (
+export default ({navigation}) => (
   <FlatList
     data={users}
     keyExtractor={item => {
@@ -18,7 +18,7 @@ export default () => (
           image={{ uri: item.picture.thumbnail }}
           title={name}
           subtitle={item.email}
-          onPress={() => alert("todo!")}
+          onPress={() => navigation.push("ContactDetails", {contact: item})}
         />
       );
     }}
